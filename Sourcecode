@@ -1,0 +1,148 @@
+%GameOfLife
+clc
+clear all
+L = 4;
+M = 13;
+newGOF = zeros(L);
+N = 30;
+
+
+
+GOF = zeros(L);
+
+%amount of living cells
+for i = 1:M
+    GOF(randperm(numel(GOF),numel(i))) = 1;
+end
+
+for k = 1:N
+    disp(GOF);
+    %top left corner
+   DOA = GOF(1,1);
+   sum = GOF(2,1) + GOF(1,2) + GOF(2,2) + GOF(1,L) + GOF(L,1) + GOF(L,L) + GOF(2,L) + GOF(L,2);
+   if (DOA == 1 && (sum == 2 || sum == 3));
+       newGOF(1,1) = 1;
+   else (DOA == 1 && (sum < 2 || sum > 3));
+       newGOF(1,1) = 0;
+   end
+   if (DOA == 0 && sum == 3);
+       newGOF(1,1) = 1;
+   end
+   %Top right corner
+   DOA = GOF(1,L);
+   sum = GOF(1,L-1) + GOF(2,L) + GOF(2,L-1) + GOF(1,1) + GOF(L,1) + GOF(L,L) + GOF(L,L-1) + GOF(1,2);
+   if (DOA == 1 && (sum == 2 || sum == 3));
+       newGOF(1,L) = 1;
+   else (DOA == 1 && (sum < 2 || sum > 3));
+       newGOF(1,L) = 0;
+   end
+   if (DOA == 0 && sum == 3);
+       newGOF(1,L) = 1;
+   end
+   %bottom left corner
+   DOA = GOF(L,1);
+   sum = GOF(L-1,1) + GOF(L-1,2) + GOF(L,2) + GOF(1,1) + GOF(1,L) + GOF(L,L) + GOF(1,2) + GOF(L-1,L);
+   if (DOA == 1 && (sum == 2 || sum == 3));
+       newGOF(L,1) = 1;
+   else (DOA == 1 && (sum < 2 || sum > 3));
+       newGOF(L,1) = 0;
+   end
+   if (DOA == 0 && sum == 3);
+       newGOF(L,1) = 1;
+   end
+   %bottom right corner
+   DOA = GOF(L,L);
+   sum = GOF(L-1,L) + GOF(L-1,L-1) + GOF(L,L-1) + GOF(1,1) + GOF(1,L) + GOF(L,1) + GOF(1,L-1) + GOF(L-1,1);
+   if (DOA == 1 && (sum == 2 || sum == 3));
+       newGOF(L,L) = 1;
+   else (DOA == 1 && (sum < 2 || sum > 3));
+       newGOF(L,L) = 0;
+   end
+   if (DOA == 0 && sum == 3);
+       newGOF(L,L) = 1;
+   end
+   
+   %right sides
+   for ii = 2:1:L-1
+      DOA = GOF(ii,L);
+      sum = GOF(ii-1,L) + GOF(ii+1,L) + GOF(ii-1,L-1) + GOF(ii,L-1) + GOF(ii+1,L-1) + GOF(ii-1,1) + GOF(ii,1) + GOF(ii+1,1);
+      if (DOA == 1 && (sum == 2 || sum == 3));
+       newGOF(ii,L) = 1;
+   else (DOA == 1 && (sum < 2 || sum > 3));
+       newGOF(ii,L) = 0;
+   end
+   if (DOA == 0 && sum == 3)
+       newGOF(ii,L) = 1;
+   end
+   end
+      
+   %Left side
+   for ii = 2:1:L-1
+      DOA = GOF(ii,1);
+      sum = GOF(ii-1,1) + GOF(ii-1,2) + GOF(ii,2) + GOF(ii+1,2) + GOF(ii+1,1) + GOF(ii+1,L) + GOF(ii,L) + GOF(ii-1,L);
+      if (DOA == 1 && (sum == 2 || sum == 3));
+       newGOF(ii,1) = 1;
+   else (DOA == 1 && (sum < 2 || sum > 3));
+       newGOF(ii,1) = 0;
+   end
+   if (DOA == 0 && sum == 3);
+       newGOF(ii,1) = 1;
+   end
+   end
+   
+   %TOP side
+   for ii = 2:1:L-1
+       DOA = GOF(1,ii);
+       sum = GOF(1,ii+1) + GOF(2,ii+1) + GOF(2,ii) + GOF(2,ii-1) + GOF(1,ii-1) + GOF(L,ii-1) + GOF(L,ii) + GOF(L,ii+1);
+       if (DOA == 1 && (sum == 2 || sum == 3));
+       newGOF(1,ii) = 1;
+   else (DOA == 1 && (sum < 2 || sum > 3));
+       newGOF(1,ii) = 0;
+   end
+   if (DOA == 0 && sum == 3);
+       newGOF(1,ii) = 1;
+   end
+       
+       
+   end
+   %Bottom side
+   for ii = 2:1:L-1
+      DOA = GOF(L,ii); 
+      sum = GOF(L,ii-1) + GOF(L-1,ii-1) + GOF(L-1,ii) + GOF(L-1,ii+1) + GOF(L,ii+1) + GOF(1,ii) + GOF(1,ii-1) + GOF(1,ii+1);
+       if (DOA == 1 && (sum == 2 || sum == 3));
+       newGOF(L,ii) = 1;
+   else (DOA == 1 && (sum < 2 || sum > 3));
+       newGOF(L,ii) = 0;
+   end
+   if (DOA == 0 && sum == 3);
+       newGOF(L,ii) = 1;
+   end
+       
+   end
+   
+   %Inside of the lattice
+   for i = 2:1:L-1
+       
+       for j = 2:1:L-1
+           DOA = GOF(i,j);
+           sum = GOF(i+1,j) + GOF(i+1,j-1) + GOF(i,j-1) + GOF(i-1,j-1) + GOF(i-1,j) + GOF(i-1,j+1) + GOF(i,j+1) + GOF(i+1,j+1);
+           if (DOA == 1 && (sum == 2 || sum == 3));
+       newGOF(i,j) = 1;
+   else (DOA == 1 && (sum < 2 || sum > 3));
+       newGOF(i,j) = 0;
+   end
+   if (DOA == 0 && sum == 3);
+       newGOF(i,j) = 1;
+   end
+           
+           
+       end
+   end
+   
+GOF = newGOF;
+
+newGOF = zeros(L);
+imshow(GOF);
+
+end
+    
